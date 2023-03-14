@@ -1,0 +1,36 @@
+.status {
+  background-color: red;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: block;
+}
+.status.isOnline {
+  background-color: green;
+}
+.friendList {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+.item {
+  width: 306px;
+  height: 84px;
+  padding-left: 14px;
+  background-color: white;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 8px 8px 24px 0px rgba(66, 68, 90, 1);
+}
+.avatar {
+  width: 74px;
+  height: 74px;
+  border: black solid 1px;
+  border-radius: 8px;
+}
+.name {
+  font-weight: 700;
+}

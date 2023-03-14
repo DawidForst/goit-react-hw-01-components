@@ -1,0 +1,32 @@
+.statistics {
+  margin: 50px auto;
+  max-width: 344px;
+  height: auto;
+  background-color: white;
+}
+.title {
+  height: 84px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.statList {
+  display: flex;
+  flex-direction: row;
+  height: 84px;
+}
+.statList li {
+  width: calc(100% / 4);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.statList li:first-child {
+  border-radius: 0 0 0 5px;
+}
+.statList li:last-child {
+  border-radius: 0 0 5px 0;
+}
