@@ -1,4 +1,7 @@
 import css from "./Transactions.module.css";
+import PropTypes from "prop-types";
+
+
 
 export function TransactionHistory({ items }) {
   return (
@@ -23,3 +26,16 @@ export function TransactionHistory({ items }) {
     </table>
   );
 }
+
+TransactionHistory.propTypes ={
+
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      type: PropTypes.string,
+      amount: PropTypes.string, // Czy można dać typ który będzie odczytywał numer z kropką zamiast przecinka? 
+      currency: PropTypes.string,
+    })
+  )
+
+};
