@@ -1,28 +1,67 @@
-import user from "./user.json";
-import data from "./data.json";
-import friends from "./friends.json";
-import transactions from "./transactions.json";
+import React, { useState, useEffect, useCallback } from "react";
+import "./App.css";
+import SearchForm from "./Components/SearchForm/SearchForm";
+import { CountryList } from "./Components/CountrySearch/CountrySearch";
+import { Map } from "./Components/MapContainter/Map";
 
-import { Profile } from "./task-01/SocialProfile";
-import { Statistics } from "./task-02/Statistics";
-import { FriendList, FriendListItem } from "./task-03/FriendList";
-import { TransactionHistory } from "./task-04/Transactions";
+const App = () => {
+  const [countries, setCountries] = useState([]);
+  const [selectedCapital, setSelectedCapital] = useState("Warsaw");
 
-export function App() {
+  useEffect(() => {
+    fetch("https://restcountries.com/v3.1/all")
+      .then((response) => response.json())
+      .then((data) => {
+        setCountries(data);
+      })
+      .catch((error) => console.log(error));
+  }, []);
+
+  const handleSearch = useCallback((searchOption, searchValue) => {
+    if (searchOption === "name") {
+      setCountries((prevCountries) => {
+        return prevCountries.filter(
+          (country) =>
+            country.name.common
+              .toLowerCase()
+              .includes(searchValue.toLowerCase())
+        );
+      });
+    } else if (searchOption === "capital") {
+      setCountries((prevCountries) => {
+        return prevCountries.filter((country) => {
+          if (country.capital && country.capital[0]) {
+            return country.capital[0]
+              .toLowerCase()
+              .includes(searchValue.toLowerCase());
+          }
+          return false;
+        });
+      });
+    }
+  }, []);
+
+  const handleCountryClick = useCallback((capital) => {
+    setSelectedCapital(capital);
+    console.log(`Selected capital: ${capital}`);
+  }, []);
+
   return (
-    <>
-      <Profile
-        username={user.username}
-        tag={user.tag}
-        location={user.location}
-        avatar={user.avatar}
-        stats={user.stats}
-      />
-      <Statistics title="Upload stats" stats={data} />
-      <FriendList>
-        <FriendListItem friends={friends} />
-      </FriendList>
-      <TransactionHistory items={transactions} />
-    </>
+    <div className="container">
+      <div className="sidebar">
+        <SearchForm onSearch={handleSearch} />
+        <div className="country-list">
+          <CountryList
+            countries={countries}
+            onCountryClick={handleCountryClick}
+          />
+        </div>
+      </div>
+      <div className="map-container">
+        <Map city={selectedCapital} />
+      </div>
+    </div>
   );
-}
+};
+
+export default App;
